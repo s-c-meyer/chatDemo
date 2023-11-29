@@ -1,28 +1,54 @@
 import { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { StyleSheet, View, Text, Platform, KeyboardAvoidingView } from 'react-native';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ChatScreen = ({ db, route }) => {
+const ChatScreen = ({ db, route, isConnected }) => {
   const { name } = route.params;
   const { userID } = route.params
   const { backgroundColor } = route.params;
   const [messages, setMessages] = useState([]);
 
+  const loadCachedMessages = async () => {
+    const cachedMessages = await AsyncStorage.getItem('cached_messages') || [];
+    setMessages(JSON.parse(cachedMessages));
+  };
+
+  const cacheMessages = async (messagesToCache) => {
+    try {
+      await AsyncStorage.setItem('cached_messages', JSON.stringify(messagesToCache));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  let unsubMessages;
+
   useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-    const unsubMessages = onSnapshot(q, (documentsSnapshot) => {
-      let newMessages = [];
-      documentsSnapshot.forEach(doc => {
-        newMessages.push({ id: doc.id, ...doc.data(), createdAt: new Date(doc.data().createdAt.toMillis())})
+    if(isConnected === true) {
+
+      //unregister current onSnapshot() listener to avoid registering multiple listeners when useEffect code is re-executed
+      if (unsubMessages) unsubMessages();
+      unsubMessages = null;
+
+      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      unsubMessages = onSnapshot(q, (documentsSnapshot) => {
+        let newMessages = [];
+        documentsSnapshot.forEach(doc => {
+          newMessages.push({ id: doc.id, ...doc.data(), createdAt: new Date(doc.data().createdAt.toMillis())})
+        });
+        cacheMessages(newMessages);
+        setMessages(newMessages);
       });
-      setMessages(newMessages);
-    })
+    } else loadCachedMessages();
+
+    //Clean up code, code to execute when the component is unmounted
     return () => {
       if (unsubMessages) unsubMessages();
     }
-  }, []);
+  }, [isConnected]);
 
   // useEffect(() => {
   //   setMessages([
@@ -49,6 +75,7 @@ const ChatScreen = ({ db, route }) => {
     addDoc(collection(db, 'messages'), newMessages[0]) //the message to be added will be the first one in the newMessages array, hence newMessages[0]
   };
 
+  //Change the default colors of the text bubbles in the chat app
   const renderBubble = (props) => {
     return <Bubble
       {...props}
@@ -63,11 +90,18 @@ const ChatScreen = ({ db, route }) => {
     />
   }
 
+  //if there is no connection, do not show the InputToolbar
+  const renderInputToolbar = (props) => {
+    if (isConnected) return <InputToolbar {...props} />
+    else return null;
+  }
+
   return (
     <View style={styles.container} backgroundColor={backgroundColor}>
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
+        renderInputToolbar={renderInputToolbar}
         onSend={messages => onSend(messages)}
         user={{
           _id: userID,
