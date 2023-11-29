@@ -1,16 +1,28 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity, Alert } from 'react-native';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const StartScreen = ({ navigation }) => {
-const [name, setName] = useState("");
-const [backgroundColor, setBackgroundColor] = useState("");
+  const auth = getAuth();
 
+  const [name, setName] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("");
 
+  const signInUser = () => {
+    signInAnonymously(auth)
+      .then(result => {
+        navigation.navigate('ChatScreen', {userID: result.user.uid, name: name, backgroundColor: backgroundColor });
+        Alert.alert('Signed in Successfuly');
+      })
+      .catch((error) => {
+        Alert.alert('Unable to sign, please try again later');
+      })
+  };
 
-const handleColorChange = (style) => {
-  const color = StyleSheet.flatten(style).backgroundColor;
-  setBackgroundColor(color);
-};
+  const handleColorChange = (style) => {
+    const color = StyleSheet.flatten(style).backgroundColor;
+    setBackgroundColor(color);
+  };
 
   return (
     <View style={styles.container}>
@@ -29,7 +41,7 @@ const handleColorChange = (style) => {
             <TouchableOpacity style={styles.buttonThree} onPress={() => {handleColorChange(styles.buttonThree)}}></TouchableOpacity>
             <TouchableOpacity style={styles.buttonFour} onPress={() => {handleColorChange(styles.buttonFour)}}></TouchableOpacity>
           </View> 
-          <TouchableOpacity style={styles.chattingButton} onPress={() => navigation.navigate('ChatScreen', { name: name, backgroundColor: backgroundColor })}>
+          <TouchableOpacity style={styles.chattingButton} onPress={signInUser}>
             <Text style={styles.chattingText}>Start Chatting</Text>
           </TouchableOpacity>
           {/* <Button 

@@ -2,6 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+//import the screens
 import StartScreen from './components/Start';
 import ChatScreen from './components/Chat';
 
@@ -9,6 +13,21 @@ import ChatScreen from './components/Chat';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const firebaseConfig = {
+    apiKey: "AIzaSyAPKbxgv5Kit_HpaF_xi7k07nKmtbLubWo",
+    authDomain: "chat-app-b066c.firebaseapp.com",
+    projectId: "chat-app-b066c",
+    storageBucket: "chat-app-b066c.appspot.com",
+    messagingSenderId: "816829909177",
+    appId: "1:816829909177:web:107746e694fad83e30b368"
+  };
+
+  //Intialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  //Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore(app);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -20,8 +39,10 @@ const App = () => {
         />
         <Stack.Screen
           name="ChatScreen"
-          component={ChatScreen}
-        />
+          //component={ChatScreen}
+        >
+          {props => <ChatScreen db={db} {...props} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
