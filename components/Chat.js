@@ -4,8 +4,10 @@ import { StyleSheet, View, Text, Platform, KeyboardAvoidingView } from 'react-na
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import { collection, getDocs, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 
-const ChatScreen = ({ db, route, isConnected }) => {
+const ChatScreen = ({ db, route, isConnected, storage }) => {
   const { name } = route.params;
   const { userID } = route.params
   const { backgroundColor } = route.params;
@@ -50,27 +52,6 @@ const ChatScreen = ({ db, route, isConnected }) => {
     }
   }, [isConnected]);
 
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: "Hello Developer!",
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: "React Native",
-  //         avatar: "https://picsum.photos/140/140" //placeimg says it stopped serving placeholders on June 30th of this year, so I selected a different placeholder
-  //       },
-  //     },
-  //     {
-  //       _id: 2,
-  //       text: "This is a system message",
-  //       createdAt: new Date(),
-  //       system: true,
-  //     },
-  //   ]);
-  // }, []);
-
   const onSend = (newMessages) => {
     addDoc(collection(db, 'messages'), newMessages[0]) //the message to be added will be the first one in the newMessages array, hence newMessages[0]
   };
@@ -90,11 +71,37 @@ const ChatScreen = ({ db, route, isConnected }) => {
     />
   }
 
-  //if there is no connection, do not show the InputToolbar
+  //if there is no connection detected, do not show the InputToolbar
   const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />
     else return null;
   }
+
+  const renderCustomActions = (props) => {
+    return <CustomActions userID={userID} storage={storage} {...props} />;
+  };
+
+  //if you need to render multiple custom views, you would put a switch case or if else statement in this function
+  const renderCustomView = (props) => {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3}}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <View style={styles.container} backgroundColor={backgroundColor}>
@@ -102,6 +109,8 @@ const ChatScreen = ({ db, route, isConnected }) => {
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         onSend={messages => onSend(messages)}
         user={{
           _id: userID,

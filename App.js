@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { initializeApp } from "firebase/app";
 import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { useNetInfo } from "@react-native-community/netinfo";
+import { getStorage } from 'firebase/storage';
+
 
 //import the screens
 import StartScreen from './components/Start';
@@ -29,8 +30,9 @@ const App = () => {
   //Intialize Firebase
   const app = initializeApp(firebaseConfig);
 
-  //Initialize Cloud Firestore and get a reference to the service
+  //Initialize Cloud Firestore and Cloud Storage and get a reference to the services
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
   useEffect(() => {
     if (connectionStatus.isConnected === false) {
@@ -54,20 +56,11 @@ const App = () => {
           name="ChatScreen"
           //component={ChatScreen}
         >
-          {props => <ChatScreen isConnected={connectionStatus.isConnected} db={db} {...props} />}
+          {props => <ChatScreen isConnected={connectionStatus.isConnected} db={db} storage={storage} {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 
 export default App;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const StartScreen = ({ navigation }) => {
@@ -44,14 +44,7 @@ const StartScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.chattingButton} onPress={signInUser}>
             <Text style={styles.chattingText}>Start Chatting</Text>
           </TouchableOpacity>
-          {/* <Button 
-            title="Start Chatting"
-            onPress={() => navigation.navigate('ChatScreen', { name: name, backgroundColor: backgroundColor })}
-            style={styles.chattingButton}
-            color='#757083'
-          /> */}
         </View>
-        
       </ImageBackground>
     </View>
   );
@@ -61,7 +54,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
    justifyContent: 'center',
-  // alignItems: 'center',
   },
   textInput: {
     width: '88%',
