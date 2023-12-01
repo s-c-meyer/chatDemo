@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Alert } from 'react-native';
+import { Alert, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { initializeApp } from "firebase/app";
@@ -14,6 +14,8 @@ import ChatScreen from './components/Chat';
 
 //create the navigator
 const Stack = createNativeStackNavigator();
+
+LogBox.ignoreLogs(["@firebase/auth: Auth"]);
 
 const App = () => {
   const connectionStatus = useNetInfo();
