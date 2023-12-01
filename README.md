@@ -2,16 +2,18 @@
 
 This is a chat app that was built using React Native and tested using an Android Emulator. The app provides users with a chat interface and options to share their location and share images. Images may be shared either from the devices media library, or directly from the camera within the app. 
 
+Enter a username into the app, select a background color for your chat screen, and select "Start Chatting"! 
 
-# Get the Chat App up and running! 
-## Node.js
+
+## Get the Chat App up and running! 
+### Node.js
 Be sure you have [Node.js installed on your device](https://nodejs.org/en/learn/getting-started/how-to-install-nodejs).
 
 Expo recommends running on the latest LTS release, so run `nvm install lts` in your project terminal
 
 <br>
 
-## Expo 
+### Expo 
 This app uses Expo for developing and testing. In your project terminal also run `npm install -g expo-cli` to install expo globally
 
 Install Expo Go on your device, either [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&gl=US&pli=1), to run the project on. 
@@ -20,7 +22,7 @@ Sign up for an [Expo Account](expo.dev) to be able to run the app on your device
 
 <br>
 
-## Google Firebase
+### Google Firebase
 This app uses Google Firebase to store the data for the chat app, including the messages and the images. Follow the below instructions to set up the database to receive data from the app.
 
 1. Start off at the [Google Firebase](https://firebase.google.com/) homepage. From there, click **Sign-In** in the upper right corner, and sign in using a Google login
@@ -48,7 +50,7 @@ You now have Google Firebase setup to house data for your messages and your imag
 
 <br>
 
-## Necessary Libraries
+### Necessary Libraries
 Run the following commands in the project terminal to ensure you have all the correct libraries for the app to function:
 ```
 npm install --save @react-navigation/native @react-navigation/native-stack
