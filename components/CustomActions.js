@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     marginLeft: 10,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   wrapper: {
     borderRadius: 13,

@@ -26,7 +26,7 @@ const StartScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/Background-Image.png')} resizeMode="cover" style={styles.image}>
+      <ImageBackground source={require('../assets/Purple-Background-Image.jpg')} resizeMode="cover" style={styles.image}>
         <View style={styles.screenOneContainer}>
           <TextInput 
             style={styles.textInput}
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 1,
     marginTop: 15,
-    marginBottom: 15,
+    marginBottom: 30,
     backgroundColor: "white",
   },
   image: {
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     margin: 30,
     height: '44%',
     width: '88%',
+    borderRadius: 15,
   },
   buttonOne: {
     backgroundColor: "#090C08",
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#757083',
     width: '88%',
     height: 50,
-    marginBottom: 40,
+    marginBottom: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },

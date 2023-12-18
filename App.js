@@ -48,15 +48,15 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="StartScreen" //this name should match one of the name's listed below in the <Stack.Screen /> component
+        initialRouteName="Welcome" //this name should match one of the name's listed below in the <Stack.Screen /> component
       >
         <Stack.Screen
-          name="StartScreen"
+          name="Welcome"
           component={StartScreen}
         />
         <Stack.Screen
           name="ChatScreen"
-          //component={ChatScreen}
+          // component={ChatScreen}
         >
           {props => <ChatScreen isConnected={connectionStatus.isConnected} db={db} storage={storage} {...props} />}
         </Stack.Screen>

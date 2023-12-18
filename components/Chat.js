@@ -116,6 +116,8 @@ const ChatScreen = ({ db, route, isConnected, storage }) => {
           _id: userID,
           name: name
         }}
+        minComposerHeight={40}
+        maxComposerHeight={100}
       />
       {/*the two lines below prevent the keyboard from blocking the view. For Androids, use height, and for iOS, use padding */}
       {Platform.OS === 'android' ? <KeyboardAvoidingView behavior='height' /> : null }
