@@ -1,8 +1,24 @@
-# chatDemo
+# Meyer's Messages 📱📨
 
-This is a chat app that was built using React Native and tested using an Android Emulator. The app provides users with a chat interface and options to share their location and share images. Images may be shared either from the devices media library, or directly from the camera within the app. 
+This is a chat app that was built using React Native and tested using an Android Emulator and my iPhone. The app provides users with a chat interface and options to share their location and share images. Images may be shared either from the devices media library, or directly from the camera within the app.  
 
-Enter a username into the app, select a background color for your chat screen, and select "Start Chatting"! 
+<br>
+  
+<div align=center>
+  <img src="https://github.com/s-c-meyer/chatDemo/assets/127259009/1a42234d-dc6e-448a-b70e-a301ff17e839" width="30%" />&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/s-c-meyer/chatDemo/assets/127259009/00f29c76-04ac-4135-815a-90c7fa4c9d1b" width="30%" />&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/s-c-meyer/chatDemo/assets/127259009/c68362d7-b7e5-4dd4-a856-eb9910442d45" width="30%" />
+</div>
+
+
+
+
+
+## App Features
+- Change the background color of the chat screen
+- Send images from media library or from your device's camera
+- Share your location with another user
+  
 
 
 ## Get the Chat App up and running! 
